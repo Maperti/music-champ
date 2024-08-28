@@ -1,0 +1,50 @@
+<div class="home text-center mt-12 pb-10">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <h1 class="text-4xl font-bold mb-6">What to listen to?</h1>
+
+  <button (click)="startNewGame()" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">New Game</button>
+
+  <div *ngIf="!winner" class="random-songs mt-8">
+    <h2 *ngIf="randomSongs.length" class="text-2xl font-semibold mb-4">Rivals</h2>
+    <div class="flex flex-wrap justify-center">
+      <div *ngFor="let song of randomSongs" class="text-xl mb-2 p-4 border rounded-lg shadow-lg w-64 mx-2">
+        <p class="text-sm"><strong>{{ song.name }}</strong> by {{ song.artists[0].name }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentPair.length === 2" class="current-pair mt-4">
+    <h2 class="text-2xl font-semibold mb-4">Round {{ round }}</h2>
+    <div class="flex justify-center items-center">
+      <div class="song-card text-lg mb-2 p-2 border rounded-lg shadow-lg w-64 mx-2">
+        <p class="text-sm"><strong>{{ currentPair[0].name }}</strong> by {{ currentPair[0].artists[0].name }}</p>
+        <img *ngIf="currentPair[0].album.images && currentPair[0].album.images.length" [src]="currentPair[0].album.images[0].url" alt="Album Image" class="w-32 h-32 mx-auto">
+        <audio *ngIf="currentPair[0].preview_url" controls class="w-full mt-2">
+          <source [src]="currentPair[0].preview_url" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <button (click)="chooseSong(currentPair[0])" class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 mt-2">pick</button>
+      </div>
+
+      <div class="vs text-xl font-bold mx-2">vs</div>
+
+      <div class="song-card text-lg mb-2 p-2 border rounded-lg shadow-lg w-64 mx-2">
+        <p class="text-sm"><strong>{{ currentPair[1].name }}</strong> by {{ currentPair[1].artists[0].name }}</p>
+        <img *ngIf="currentPair[1].album.images && currentPair[1].album.images.length" [src]="currentPair[1].album.images[0].url" alt="Album Image" class="w-32 h-32 mx-auto">
+        <audio *ngIf="currentPair[1].preview_url" controls class="w-full mt-2">
+          <source [src]="currentPair[1].preview_url" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <button (click)="chooseSong(currentPair[1])" class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 mt-2">pick</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="winner" class="winner mt-8 text-xl mb-2 p-4 border rounded-lg shadow-lg mx-auto">
+    <h2 class="text-3xl font-semibold mb-4">Winner: {{ winner.name }} by {{ winner.artists[0].name }}</h2>
+    <img *ngIf="winner.album.images && winner.album.images.length" [src]="winner.album.images[0].url" alt="Album Image" class="w-50 h-50 mx-auto">
+  </div>
+</div>
